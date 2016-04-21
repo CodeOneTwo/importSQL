@@ -36,6 +36,30 @@ field_colour varchar(255)
 
 ```
 
+To use the options -D ( or addDatetime in config.json) there must be a datetime col in the database.
+
+mysql>
+
+```
+CREATE DATABASE ILOVEOWLS 
+    DEFAULT CHARACTER SET utf8 
+    DEFAULT COLLATE utf8_general_ci;
+    
+USE ILOVEOWLS;
+
+CREATE TABLE OMFGowls
+(
+field_image varchar(255),
+field_name varchar(255),
+field_price varchar(255),
+field_size varchar(255),
+field_colour varchar(255),
+datetime DATETIME
+) DEFAULT CHARACTER SET utf8
+  DEFAULT COLLATE utf8_general_ci;
+
+```
+
 ### Using a config Script
 
 * Using this you can set up a configuration that you can set up once and re-use to get the latest data into yours database table
@@ -58,6 +82,8 @@ field_colour varchar(255)
 	"port": 3306,
 	"username": "root",
 	"password": "root",
+
+        "addDatetime": false,
  
 	"mapping": {
 		"image": "field_image",

@@ -43,6 +43,8 @@ def getConfigOptions(options, config_data):
     get_optional_config_data(options, config_data, "password", None)
     get_optional_config_data(options, config_data, "crawl", False);
 
+    get_optional_config_data(options, config_data, "addDatetime", False);
+
     return config_data
 
 
@@ -147,6 +149,11 @@ def push_to_sql(config_data, results):
                     values.append("'" + unicode(result[key]) + "'")
                 sql_field_mapping_string = ", ".join(sql_field_mapping)
 
+            if "addDatetime" in config_data and config_data["addDatetime"]:
+                f = '%Y-%m-%d %H:%M:%S'
+                sql_field_mapping.append("datetime")
+                values.append("'"+datetime.datetime.now().strftime(f)+"'")
+
             print "Row data: %s" % ', '.join(values)
 
             query_string = "INSERT INTO " + config_data[
@@ -196,6 +203,7 @@ if __name__ == "__main__":
     parser.add_option("-U", "--username", dest="username", help="Your mysql username")
     parser.add_option("-P", "--password", dest="password", help="Your mysql password")
     parser.add_option("-t", "--table", dest="table", help="The name of the table you wish to import the data into")
+    parser.add_option("-D", "--datetime", dest="addDatetime", help="Adds a datetime to every SQL Insert (requires datetime column in the database)")
     parser.add_option("-d", "--database", dest="database",
                       help="The name fo the mysql database that you wish to import your data into")
     parser.add_option("-H", "--host", dest="host", help="The mysql host")
